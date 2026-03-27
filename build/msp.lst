@@ -1,0 +1,222 @@
+ARM GAS  /var/folders/cw/yd42cdzd0yd5y__m68_66wjm0000gn/T//ccpUwu2v.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"msp.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Core/Src/msp.c"
+  20              		.section	.text.HAL_MspInit,"ax",%progbits
+  21              		.align	1
+  22              		.global	HAL_MspInit
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	HAL_MspInit:
+  28              	.LFB134:
+   1:Core/Src/msp.c **** // msp.c
+   2:Core/Src/msp.c **** #include "stm32f4xx.h"
+   3:Core/Src/msp.c **** #include "stm32f4xx_hal.h"
+   4:Core/Src/msp.c **** #include "stm32f4xx_hal_cortex.h"
+   5:Core/Src/msp.c **** 
+   6:Core/Src/msp.c **** 
+   7:Core/Src/msp.c **** /**
+   8:Core/Src/msp.c ****   * @brief  Initialize the MSP.
+   9:Core/Src/msp.c ****   * @retval None
+  10:Core/Src/msp.c ****   */
+  11:Core/Src/msp.c **** void HAL_MspInit(void)
+  12:Core/Src/msp.c **** {
+  29              		.loc 1 12 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 08B5     		push	{r3, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 3, -8
+  37              		.cfi_offset 14, -4
+  13:Core/Src/msp.c ****   // 1. Set up priority grouping for Cortex-M.
+  14:Core/Src/msp.c ****   HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+  38              		.loc 1 14 3 view .LVU1
+  39 0002 0320     		movs	r0, #3
+  40 0004 FFF7FEFF 		bl	HAL_NVIC_SetPriorityGrouping
+  41              	.LVL0:
+  15:Core/Src/msp.c **** 
+  16:Core/Src/msp.c ****   // 2. Enable usage fault, memory fault and bus fault exceptions.
+  17:Core/Src/msp.c ****   SCB->SHCSR |= 0x7 << 16;
+ARM GAS  /var/folders/cw/yd42cdzd0yd5y__m68_66wjm0000gn/T//ccpUwu2v.s 			page 2
+
+
+  42              		.loc 1 17 3 view .LVU2
+  43              		.loc 1 17 6 is_stmt 0 view .LVU3
+  44 0008 0B4A     		ldr	r2, .L3
+  45 000a 536A     		ldr	r3, [r2, #36]
+  46              		.loc 1 17 14 view .LVU4
+  47 000c 43F4E023 		orr	r3, r3, #458752
+  48 0010 5362     		str	r3, [r2, #36]
+  18:Core/Src/msp.c **** 
+  19:Core/Src/msp.c ****   // 3. Configure priorities for system exceptions.
+  20:Core/Src/msp.c ****   HAL_NVIC_SetPriority(MemoryManagement_IRQn, 0, 0);
+  49              		.loc 1 20 3 is_stmt 1 view .LVU5
+  50 0012 0022     		movs	r2, #0
+  51 0014 1146     		mov	r1, r2
+  52 0016 6FF00B00 		mvn	r0, #11
+  53 001a FFF7FEFF 		bl	HAL_NVIC_SetPriority
+  54              	.LVL1:
+  21:Core/Src/msp.c ****   HAL_NVIC_SetPriority(BusFault_IRQn, 0, 0);
+  55              		.loc 1 21 3 view .LVU6
+  56 001e 0022     		movs	r2, #0
+  57 0020 1146     		mov	r1, r2
+  58 0022 6FF00A00 		mvn	r0, #10
+  59 0026 FFF7FEFF 		bl	HAL_NVIC_SetPriority
+  60              	.LVL2:
+  22:Core/Src/msp.c ****   HAL_NVIC_SetPriority(UsageFault_IRQn, 0, 0);
+  61              		.loc 1 22 3 view .LVU7
+  62 002a 0022     		movs	r2, #0
+  63 002c 1146     		mov	r1, r2
+  64 002e 6FF00900 		mvn	r0, #9
+  65 0032 FFF7FEFF 		bl	HAL_NVIC_SetPriority
+  66              	.LVL3:
+  23:Core/Src/msp.c **** }
+  67              		.loc 1 23 1 is_stmt 0 view .LVU8
+  68 0036 08BD     		pop	{r3, pc}
+  69              	.L4:
+  70              		.align	2
+  71              	.L3:
+  72 0038 00ED00E0 		.word	-536810240
+  73              		.cfi_endproc
+  74              	.LFE134:
+  76              		.section	.text.HAL_TIM_Base_MspInit,"ax",%progbits
+  77              		.align	1
+  78              		.global	HAL_TIM_Base_MspInit
+  79              		.syntax unified
+  80              		.thumb
+  81              		.thumb_func
+  83              	HAL_TIM_Base_MspInit:
+  84              	.LVL4:
+  85              	.LFB135:
+  24:Core/Src/msp.c **** 
+  25:Core/Src/msp.c **** 
+  26:Core/Src/msp.c **** void HAL_TIM_Base_MspInit(TIM_HandleTypeDef *htimer6)
+  27:Core/Src/msp.c **** {
+  86              		.loc 1 27 1 is_stmt 1 view -0
+  87              		.cfi_startproc
+  88              		@ args = 0, pretend = 0, frame = 8
+  89              		@ frame_needed = 0, uses_anonymous_args = 0
+  28:Core/Src/msp.c ****     if (htimer6->Instance != TIM6)
+ARM GAS  /var/folders/cw/yd42cdzd0yd5y__m68_66wjm0000gn/T//ccpUwu2v.s 			page 3
+
+
+  90              		.loc 1 28 5 view .LVU10
+  91              		.loc 1 28 16 is_stmt 0 view .LVU11
+  92 0000 0268     		ldr	r2, [r0]
+  93              		.loc 1 28 8 view .LVU12
+  94 0002 0E4B     		ldr	r3, .L12
+  95 0004 9A42     		cmp	r2, r3
+  96 0006 00D0     		beq	.L11
+  97 0008 7047     		bx	lr
+  98              	.L11:
+  27:Core/Src/msp.c ****     if (htimer6->Instance != TIM6)
+  99              		.loc 1 27 1 view .LVU13
+ 100 000a 00B5     		push	{lr}
+ 101              	.LCFI1:
+ 102              		.cfi_def_cfa_offset 4
+ 103              		.cfi_offset 14, -4
+ 104 000c 83B0     		sub	sp, sp, #12
+ 105              	.LCFI2:
+ 106              		.cfi_def_cfa_offset 16
+  29:Core/Src/msp.c ****     {
+  30:Core/Src/msp.c ****         return;
+  31:Core/Src/msp.c ****     }
+  32:Core/Src/msp.c **** 
+  33:Core/Src/msp.c ****         // Enable the clock for TIM6
+  34:Core/Src/msp.c ****         __HAL_RCC_TIM6_CLK_ENABLE();
+ 107              		.loc 1 34 9 is_stmt 1 view .LVU14
+ 108              	.LBB2:
+ 109              		.loc 1 34 9 view .LVU15
+ 110 000e 0022     		movs	r2, #0
+ 111 0010 0192     		str	r2, [sp, #4]
+ 112              		.loc 1 34 9 view .LVU16
+ 113 0012 03F50A33 		add	r3, r3, #141312
+ 114 0016 196C     		ldr	r1, [r3, #64]
+ 115 0018 41F01001 		orr	r1, r1, #16
+ 116 001c 1964     		str	r1, [r3, #64]
+ 117              		.loc 1 34 9 view .LVU17
+ 118 001e 1B6C     		ldr	r3, [r3, #64]
+ 119 0020 03F01003 		and	r3, r3, #16
+ 120 0024 0193     		str	r3, [sp, #4]
+ 121              		.loc 1 34 9 view .LVU18
+ 122 0026 019B     		ldr	r3, [sp, #4]
+ 123              	.LBE2:
+ 124              		.loc 1 34 9 view .LVU19
+  35:Core/Src/msp.c **** 
+  36:Core/Src/msp.c ****         // Set up the NVIC for TIM6
+  37:Core/Src/msp.c ****         HAL_NVIC_SetPriority(TIM6_DAC_IRQn, 15, 0);
+ 125              		.loc 1 37 9 view .LVU20
+ 126 0028 0F21     		movs	r1, #15
+ 127 002a 3620     		movs	r0, #54
+ 128              	.LVL5:
+ 129              		.loc 1 37 9 is_stmt 0 view .LVU21
+ 130 002c FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 131              	.LVL6:
+  38:Core/Src/msp.c ****         HAL_NVIC_EnableIRQ(TIM6_DAC_IRQn);
+ 132              		.loc 1 38 9 is_stmt 1 view .LVU22
+ 133 0030 3620     		movs	r0, #54
+ 134 0032 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 135              	.LVL7:
+ARM GAS  /var/folders/cw/yd42cdzd0yd5y__m68_66wjm0000gn/T//ccpUwu2v.s 			page 4
+
+
+  39:Core/Src/msp.c **** }
+ 136              		.loc 1 39 1 is_stmt 0 view .LVU23
+ 137 0036 03B0     		add	sp, sp, #12
+ 138              	.LCFI3:
+ 139              		.cfi_def_cfa_offset 4
+ 140              		@ sp needed
+ 141 0038 5DF804FB 		ldr	pc, [sp], #4
+ 142              	.L13:
+ 143              		.align	2
+ 144              	.L12:
+ 145 003c 00100040 		.word	1073745920
+ 146              		.cfi_endproc
+ 147              	.LFE135:
+ 149              		.text
+ 150              	.Letext0:
+ 151              		.file 2 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h"
+ 152              		.file 3 "/Applications/ArmGNUToolchain/14.2.rel1/arm-none-eabi/arm-none-eabi/include/machine/_defa
+ 153              		.file 4 "/Applications/ArmGNUToolchain/14.2.rel1/arm-none-eabi/arm-none-eabi/include/sys/_stdint.h
+ 154              		.file 5 "Drivers/CMSIS/Include/core_cm4.h"
+ 155              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 156              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 157              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
+ 158              		.file 9 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h"
+ARM GAS  /var/folders/cw/yd42cdzd0yd5y__m68_66wjm0000gn/T//ccpUwu2v.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 msp.c
+/var/folders/cw/yd42cdzd0yd5y__m68_66wjm0000gn/T//ccpUwu2v.s:21     .text.HAL_MspInit:00000000 $t
+/var/folders/cw/yd42cdzd0yd5y__m68_66wjm0000gn/T//ccpUwu2v.s:27     .text.HAL_MspInit:00000000 HAL_MspInit
+/var/folders/cw/yd42cdzd0yd5y__m68_66wjm0000gn/T//ccpUwu2v.s:72     .text.HAL_MspInit:00000038 $d
+/var/folders/cw/yd42cdzd0yd5y__m68_66wjm0000gn/T//ccpUwu2v.s:77     .text.HAL_TIM_Base_MspInit:00000000 $t
+/var/folders/cw/yd42cdzd0yd5y__m68_66wjm0000gn/T//ccpUwu2v.s:83     .text.HAL_TIM_Base_MspInit:00000000 HAL_TIM_Base_MspInit
+/var/folders/cw/yd42cdzd0yd5y__m68_66wjm0000gn/T//ccpUwu2v.s:145    .text.HAL_TIM_Base_MspInit:0000003c $d
+
+UNDEFINED SYMBOLS
+HAL_NVIC_SetPriorityGrouping
+HAL_NVIC_SetPriority
+HAL_NVIC_EnableIRQ
